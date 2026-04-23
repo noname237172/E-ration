@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ration Card</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.card {
+  border:2px solid black;
+  width:400px;
+  margin:40px auto;
+  padding:15px;
+  background:#fff;
+}
+
+.card h2, .card h3 {
+  text-align:center;
+  margin:5px;
+}
+
+.line {
+  border-top:1px solid black;
+  margin:10px 0;
+}
+
+.family-table {
+  width:100%;
+  border-collapse: collapse;
+}
+
+.family-table td, .family-table th {
+  border:1px solid black;
+  padding:5px;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">e-Ration Card</div>
+
+<div id="card"></div>
+
+<div style="text-align:center;">
+  <button onclick="goNext()">Proceed to Verification</button>
+</div>
+
+<script>
+
+let data = JSON.parse(localStorage.getItem("user"));
+
+if(!data){
+  document.body.innerHTML = "No user logged in";
+}
+
+// Card UI
+let out = `
+<div class="card">
+
+<h2>GOVERNMENT OF INDIA</h2>
+<h3>RATION CARD</h3>
+
+<div class="line"></div>
+
+<p><b>Ration ID:</b> ${data.rationId}</p>
+<p><b>Head of Family:</b> ${data.head}</p>
+<p><b>Address:</b> ${data.address}</p>
+
+<div class="line"></div>
+
+<h4>Family Details</h4>
+
+<table class="family-table">
+<tr>
+  <th>No</th>
+  <th>Name</th>
+  <th>Role</th>
+  <th>Age</th>
+</tr>
+`;
+
+data.family.forEach((f,i)=>{
+  out += `
+  <tr>
+    <td>${i+1}</td>
+    <td>${f.name}</td>
+    <td>${f.role}</td>
+    <td>${f.age}</td>
+  </tr>
+  `;
+});
+
+out += `
+</table>
+
+<div class="line"></div>
+
+<p><b>Ration:</b> Rice 5kg | Wheat 3kg | Sugar 1kg | Oil 1L</p>
+
+</div>
+`;
+
+document.getElementById("card").innerHTML = out;
+
+function goNext(){
+  window.location = "verification.html";
+}
+
+</script>
+
+</body>
+</html>

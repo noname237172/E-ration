@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>e-Ration System</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="header">GOVERNMENT OF INDIA - eRation Portal</div>
+
+<div class="container">
+  <h3>Login</h3>
+
+  <input id="id" placeholder="Ration ID">
+  <input id="pass" type="password" placeholder="Password">
+
+  <button onclick="login()">Login</button>
+
+  <p id="msg"></p>
+
+  <p>New user? <a href="signup.html">Signup here</a></p>
+</div>
+
+<script>
+async function login(){
+  let id = document.getElementById("id").value;
+  let pass = document.getElementById("pass").value;
+
+  let res = await fetch("/api/login", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({id, password:pass})
+  });
+
+  let data = await res.json();
+
+  if(data.success){
+    localStorage.setItem("user", JSON.stringify(data.user));
+    window.location="dashboard.html";
+  } else {
+    document.getElementById("msg").innerText="Invalid Login";
+  }
+}
+</script>
+
+</body>
+</html>
+
+ 
+  

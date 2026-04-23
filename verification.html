@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Verification</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="header">Face Verification</div>
+
+<div class="container">
+
+  <video id="video" width="100%" autoplay></video>
+
+  <button onclick="startCamera()">Start Camera</button>
+  <button onclick="verify()">Verify Face</button>
+
+  <p id="msg"></p>
+
+  <h3 id="token"></h3>
+
+  <div id="qrcode"></div>
+
+</div>
+
+<!-- QR Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+
+// START CAMERA
+function startCamera(){
+  navigator.mediaDevices.getUserMedia({ video:true })
+  .then(stream=>{
+    document.getElementById("video").srcObject = stream;
+  })
+  .catch(err=>{
+    document.getElementById("msg").innerText = "Camera not allowed";
+  });
+}
+
+// VERIFY + TOKEN + QR
+function verify(){
+
+  document.getElementById("msg").innerText = "Face Verified ✅";
+
+  // SIMPLE TOKEN (your requirement)
+  let token = Math.floor(Math.random() * 500) + 1;
+
+  document.getElementById("token").innerText = "Token Number: " + token;
+
+  // QR CODE
+  document.getElementById("qrcode").innerHTML = "";
+
+  new QRCode(document.getElementById("qrcode"), {
+    text: "Token: " + token,
+    width: 120,
+    height: 120
+  });
+
+  // move to final page
+  setTimeout(()=>{
+    window.location = "shopkeeper.html";
+  }, 3000);
+}
+
+</script>
+
+</body>
+</html>
